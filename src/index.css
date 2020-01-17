@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: "AU Passata Regular";
+}
+@font-face {
+    font-family: "AU Passata Bold";
+    src: local("FiraSans"), url(./fonts/AUPassata_Bold.ttf) format("truetype");
+}
+@font-face {
+    font-family: "AU Passata Light";
+    src: local("FiraSans"), url(./fonts/AUPassata_Light.ttf) format("truetype");
+}
+@font-face {
+    font-family: "AU Passata Regular";
+    src: local("FiraSans"), url(./fonts/AUPassata_Rg.ttf) format("truetype");
+}
+
+h1 {
+    font-family: "AU Passata Bold";
+    font-size: 28px;
+}
+
+input {
+    min-width: 200px;
+}
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
+}
