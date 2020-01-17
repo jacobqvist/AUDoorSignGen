@@ -73,8 +73,8 @@ let initialValuesOffice = {
     ]
 };
 
-//Formik
 
+//Formik - formik is used to fetch data from fields/user inputs
 const MyForm = props => {
     const {
         values,
@@ -184,6 +184,9 @@ class MySelect extends React.Component {
 
 const MyEnhancedForm = formikEnhancer(MyForm);
 
+//End of formik
+
+
 const GeneratorHeader = () => (
     <div>
         <h1>Door Sign Generator v2</h1>
@@ -194,6 +197,7 @@ const GeneratorHeader = () => (
     </div>
 );
 
+//THe office information area - MyEnhancedForm is created with formik
 const OfficeOfBuilding = () => (
     <div>
         <h2>Room & Building information</h2>
@@ -201,6 +205,7 @@ const OfficeOfBuilding = () => (
     </div>
 );
 
+//Member area is created with formik as well.
 const MembersOfOffice = () => (
     <div>
         <Formik
@@ -314,6 +319,7 @@ const MembersOfOffice = () => (
     </div>
 );
 
+//MyDocument is where the PDF is defined.  
 let MyDocument = () => (
     <Document>
         <Page size="A4" style={styles.page} wrap>
@@ -370,6 +376,7 @@ let MyDocument = () => (
     </Document>
 );
 
+//Checks number of office members and provides the instances for MyDocument. Sorry for not making this smarter :-) Bærbak would have slayed me
 function prePDFcheck() {
     if (initialValues.members.length === 1) {
         return (
@@ -1027,6 +1034,7 @@ function prePDFcheck() {
     }
 }
 
+//The app that he user sees
 class App extends React.Component {
     state = { url: null, go: null, building: "null", room: null };
 
@@ -1076,6 +1084,7 @@ class App extends React.Component {
     }
 }
 
+//CSS and fonts
 Font.register({
     family: "AU Passata",
     src: AUPassata_Rg
