@@ -19,7 +19,7 @@ class OfficeMember extends React.Component {
                     <View style={styles.imageOfMemberContainer}>
                         <Image
                             ref="image"
-                            src={this.props.imageUrl}
+                            source={this.props.imageUrl}
                             style={{ height: "100%", objectFit: "cover" }}
                         />
                     </View>

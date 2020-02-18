@@ -73,7 +73,6 @@ let initialValuesOffice = {
     ]
 };
 
-
 //Formik - formik is used to fetch data from fields/user inputs
 const MyForm = props => {
     const {
@@ -143,7 +142,6 @@ const formikEnhancer = withFormik({
             ]
         };
         setTimeout(() => {
-            alert(initialValuesOffice);
             setSubmitting(false);
         }, 1000);
     },
@@ -152,12 +150,12 @@ const formikEnhancer = withFormik({
 
 class MySelect extends React.Component {
     handleChange = value => {
-        // this is going to call setFieldValue and manually update values.topcis
+        // this is going to call setFieldValue and manually update
         this.props.onChange("building", value);
     };
 
     handleBlur = () => {
-        // this is going to call setFieldTouched and manually update touched.topcis
+        // this is going to call setFieldTouched and manually update
         this.props.onBlur("building", true);
     };
 
@@ -186,13 +184,22 @@ const MyEnhancedForm = formikEnhancer(MyForm);
 
 //End of formik
 
-
 const GeneratorHeader = () => (
     <div>
         <h1>Door Sign Generator v2</h1>
         <p>
-            Fill the information of the office and press generate PDF. Links to
-            images must be accessible from third party apps
+            Step 1) Fill in the information about your office and press "Update
+            office values"
+        </p>
+        <p>
+            Step 2) Fill in the information of a member of the office and press
+            "Add member" if there's more members. If you don't have an image
+            online, then use <a href="https://imgur.com/upload">imgur</a> or
+            similar and use the link of the image. Pure does not work yet.
+        </p>
+        <p>
+            Step 3) When all members are added press "Update member info" and
+            "Create PDF". Your pdf will now be ready for download.
         </p>
     </div>
 );
@@ -212,11 +219,11 @@ const MembersOfOffice = () => (
             initialValues={initialValues}
             onSubmit={values => {
                 setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
+                    JSON.stringify(values, null, 2);
                 }, 500);
             }}
         >
-            {({ values, isSubmitting }) => (
+            {({ values, isSubmitting, setFieldValue }) => (
                 <Form>
                     <FieldArray name="members">
                         {({ push, remove }) => (
@@ -226,7 +233,7 @@ const MembersOfOffice = () => (
                                     values.members.length > 0 &&
                                     values.members.map((member, index) => (
                                         <div className="row">
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <Field
                                                     name={`members[${index}].name`}
                                                     type="text"
@@ -242,7 +249,7 @@ const MembersOfOffice = () => (
                                                     )}
                                                 </Field>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <Field
                                                     name={`members[${index}].email`}
                                                     type="email"
@@ -250,7 +257,7 @@ const MembersOfOffice = () => (
                                                     className="w-100"
                                                 />
                                             </div>
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <Field
                                                     name={`members[${index}].titel`}
                                                     type="text"
@@ -258,7 +265,7 @@ const MembersOfOffice = () => (
                                                     className="w-100"
                                                 />
                                             </div>
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <Field
                                                     name={`members[${index}].phone`}
                                                     type="text"
@@ -266,15 +273,27 @@ const MembersOfOffice = () => (
                                                     className="w-100"
                                                 />
                                             </div>
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <Field
                                                     name={`members[${index}].imageUrl`}
                                                     type="text"
                                                     placeholder="Url of Image"
                                                     className="w-100"
                                                 />
+                                                {/*
+                                                <input
+                                                    name={`members[${index}].imageLocalUrl`}
+                                                    className="w-100"
+                                                    type="file"
+                                                    onChange={event => {
+                                                        setFieldValue(
+                                                            `members[${index}].imageLocalUrl`
+                                                        );
+                                                    }}
+                                                />
+                                                */}
                                             </div>
-                                            <div className="col">
+                                            <div className="col-2">
                                                 <button
                                                     className="btn btn-outline-danger"
                                                     type="button"
@@ -312,14 +331,14 @@ const MembersOfOffice = () => (
                     >
                         Update member info
                     </button>
-                    {/*<pre>{JSON.stringify(values, null, 2)}</pre>*/}
                 </Form>
             )}
         </Formik>
+        {/*<pre>{JSON.stringify(values, null, 3)}</pre>*/}
     </div>
 );
 
-//MyDocument is where the PDF is defined.  
+//MyDocument is where the PDF is defined.
 let MyDocument = () => (
     <Document>
         <Page size="A4" style={styles.page} wrap>
@@ -412,9 +431,9 @@ function prePDFcheck() {
                     email={initialValues.members[1].email}
                     phone={initialValues.members[1].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[1].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[1].imageUrl
                     }
                 />
             </View>
@@ -439,9 +458,9 @@ function prePDFcheck() {
                     email={initialValues.members[1].email}
                     phone={initialValues.members[1].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[1].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[1].imageUrl
                     }
                 />
                 <OfficeMember
@@ -450,9 +469,9 @@ function prePDFcheck() {
                     email={initialValues.members[2].email}
                     phone={initialValues.members[2].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[2].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[2].imageUrl
                     }
                 />
             </View>
@@ -477,9 +496,9 @@ function prePDFcheck() {
                     email={initialValues.members[1].email}
                     phone={initialValues.members[1].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[1].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[1].imageUrl
                     }
                 />
                 <OfficeMember
@@ -488,9 +507,9 @@ function prePDFcheck() {
                     email={initialValues.members[2].email}
                     phone={initialValues.members[2].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[2].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[2].imageUrl
                     }
                 />
                 <OfficeMember
@@ -499,9 +518,9 @@ function prePDFcheck() {
                     email={initialValues.members[3].email}
                     phone={initialValues.members[3].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[3].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[3].imageUrl
                     }
                 />
             </View>
@@ -526,9 +545,9 @@ function prePDFcheck() {
                     email={initialValues.members[1].email}
                     phone={initialValues.members[1].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[1].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[1].imageUrl
                     }
                 />
                 <OfficeMemberXLSize
@@ -537,9 +556,9 @@ function prePDFcheck() {
                     email={initialValues.members[2].email}
                     phone={initialValues.members[2].phone}
                     imageUrl={
-                        initialValues.members[0].imageUrl === ""
+                        initialValues.members[2].imageUrl === ""
                             ? placeholderImage
-                            : initialValues.members[0].imageUrl
+                            : initialValues.members[2].imageUrl
                     }
                 />
                 <OfficeMemberXLSize
@@ -1076,7 +1095,7 @@ class App extends React.Component {
                             }
                         </PDFDownloadLink>
                     ) : (
-                        <Text>Insert text</Text>
+                        <Text></Text>
                     )}
                 </div>
             </div>
